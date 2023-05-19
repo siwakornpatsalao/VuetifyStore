@@ -137,7 +137,7 @@ export default {
         const { data } = await this.$axios.get("/api/api1/games");
         //console.log(data);
         //localStorage.clear();
-        data.sort((a, b) => a.id - b.id);
+        //data.sort((a, b) => a.id - b.id);
         this.datas = data;
         //localStorage.setItem('Data', JSON.stringify(data));
       
