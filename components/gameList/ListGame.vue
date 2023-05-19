@@ -103,7 +103,7 @@ export default {
   computed: {
     filterList() {
 
-      const start = (this.page - 1) * this.perPage;
+     /*  const start = (this.page - 1) * this.perPage;
       const end = start + this.perPage;
 
       let filteredData = this.datas.filter((data) => {
@@ -122,7 +122,7 @@ export default {
         });
       }
 
-      return filteredData.slice(start, end);
+      return filteredData.slice(start, end); */
     },
 
     genres(){
