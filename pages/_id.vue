@@ -36,16 +36,16 @@ export default {
         this.id = this.$route.params.id;
     },
     async asyncData({ $axios, params }) {
-        if(localStorage.getItem('Data')){
+        /* if(localStorage.getItem('Data')){
             const data2 = JSON.parse(localStorage.getItem('Data'));
             const filteredData = data2.filter(key => key.id === Number(params.id));
             return { datas: filteredData };
-        }else{
+        }else{ */
             const { data } = await $axios.get("/api/api1/games");
             console.log(data);
             const filteredData = data.filter(key => key.id === Number(params.id));
             return { datas: filteredData };
-        }
+        
     },
     /* async mounted(){
         this.id = this.$route.params.id;
