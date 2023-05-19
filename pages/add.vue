@@ -129,18 +129,18 @@ export default {
     },
     async created() {
     try {
-      if(localStorage.getItem('Data')){
+      /* if(localStorage.getItem('Data')){
         const a = JSON.parse(localStorage.getItem('Data'))
         //localStorage.clear();
         this.datas = a
-      }else{
+      }else{ */
         const { data } = await this.$axios.get("/api/api1/games");
         //console.log(data);
         //localStorage.clear();
         data.sort((a, b) => a.id - b.id);
         this.datas = data;
         //localStorage.setItem('Data', JSON.stringify(data));
-      }
+      
     } catch (error) {
         console.error(error);
         }
@@ -186,7 +186,7 @@ export default {
           this.id = this.getMaxId() + 1;
           this.datas.push(this.form)
           //this.datas2.push(this.datas)
-          localStorage.setItem('Data', JSON.stringify(this.datas));
+          //localStorage.setItem('Data', JSON.stringify(this.datas));
           console.log('Max ID:', this.getMaxId());
         },
         getMaxId() {
@@ -195,7 +195,7 @@ export default {
           return maxId;
         },
         retrieve(){
-          const data = localStorage.getItem('Data');
+          //const data = localStorage.getItem('Data');
           console.log(data);
         },
         add(){
