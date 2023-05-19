@@ -9,7 +9,7 @@
       <v-container>
         <v-row>
           <!--<pre>{{datas}}</pre>-->
-          <v-col v-for="data in filterList" :key="data.id">
+          <v-col v-for="data in this.datas" :key="data.id">
             <v-card
               width="220"
               color="#121212"
