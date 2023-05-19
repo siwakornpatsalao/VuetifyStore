@@ -93,7 +93,7 @@ export default {
       }else{ */
         const { data } = await this.$axios.get("/api/api1/games");
         console.log("hey2"+data);
-        data.sort((a, b) => a.id - b.id);
+        //data.sort((a, b) => a.id - b.id);
         this.datas = data;
       
     } catch (error) {
