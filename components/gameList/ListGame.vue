@@ -86,16 +86,16 @@ export default {
   },
   async created() { 
     try {
-      if(localStorage.getItem('Data')){
+      /* if(localStorage.getItem('Data')){
         const data2 = JSON.parse(localStorage.getItem('Data'));
         console.log("hey"+data2)
         this.datas = data2;
-      }else{
+      }else{ */
         const { data } = await this.$axios.get("/api/api1/games");
         console.log("hey2"+data);
         data.sort((a, b) => a.id - b.id);
         this.datas = data;
-      }
+      
     } catch (error) {
       console.error(error);
     }
