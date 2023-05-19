@@ -1,0 +1,15 @@
+.slide-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    margin-right: 20px;
+  }
+  .head{
+      opacity: 1;
+      cursor: pointer;
+  }
+  .head:hover{
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+  }  

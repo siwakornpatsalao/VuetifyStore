@@ -1,0 +1,47 @@
+.blue1 {
+    background-color: rgb(28, 123, 139);
+    /* transform: rotate(7deg);
+    top: 10px; */
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+.red1 {
+    background-color: red;
+   /*  transform: rotate(7deg);
+    top: 10px; */
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+.green1 {
+    background-color: green;
+    /* transform: rotate(7deg);
+    top: 10px; */
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+.icon1 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 50px;
+}
+.thisYear {
+    background-color: rgb(26, 158, 81);
+    transform: rotate(330deg);
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    left: -15px;
+}
