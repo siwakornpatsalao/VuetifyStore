@@ -42,16 +42,18 @@
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; Version: {{version }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import ver from '../package.json'
 export default {
   name: 'DefaultLayout',
   data () {
     return {
+      version: ver.version,
       clipped: false,
       drawer: false,
       fixed: false,
