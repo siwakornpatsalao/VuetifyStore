@@ -26,7 +26,7 @@
             
         </v-card-text>
       </v-card>
-      <v-btn color="primary" @click="e4=2">Continue</v-btn>
+      <v-btn color="primary" @click="e4=2">Continue</v-btn> <!-- :disabled="!check1" -->
 
       <v-btn @click="e4=1">Cancel</v-btn>
     </v-stepper-content>
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import Item from '../models/Item';
+import Item from '../database/models/Item';
 
 //import Game from '@/models/Game'
 export default {
@@ -129,10 +129,15 @@ export default {
     },
     async created() {
     try {
-        //localStorage.clear();
-        const { data } = await this.$axios.get("/api/api1/games");
-        data.sort((a, b) => a.id - b.id);
-        this.datas = data;
+        if(localStorage.getItem('Data')){
+          const a = JSON.parse(localStorage.getItem('Data'))
+          this.datas = a
+        }else{
+          const { data } = await this.$axios.get("/api/api1/games");
+          //localStorage.clear();
+          data.sort((a, b) => a.id - b.id);
+          this.datas = data;
+        }
     } catch (error) {
         console.error(error);
         }
@@ -159,6 +164,9 @@ export default {
               id: this.id,
               release_date: this.date,
             }
+        },
+        check1(){
+          return Object.values(this.form).every((value) => !!value);
         }
     },
     methods: {
@@ -174,9 +182,12 @@ export default {
         save(){
           this.id = this.getMaxId() + 1;
           this.datas.push(this.form);
-          Item.insert({data: this.datas});
+          //Item.insert({data: this.datas});
+          localStorage.setItem('Data', JSON.stringify(this.datas));
         },
         retrieve(){
+          const data = localStorage.getItem('Data');
+          console.log(data);
           console.log(Item.all());
         },
         getMaxId() {

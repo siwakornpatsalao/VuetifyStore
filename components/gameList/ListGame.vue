@@ -15,11 +15,11 @@
               color="#121212"
               @click="goTo(data)">
               <v-img class="frame" cover :src="data.thumbnail" width="250.25" height="270.66" >
-                <v-card width="60px" 
+                <v-card width="65px" height="30px"
                         :class="{'blue1' : data.platform == 'PC (Windows)',
                         'red1' : data.platform == 'Web Browser', 
-                        'green1' : data.platform !='PC (Windows)' && data.platform != 'Web Browser'}">
-              <p>{{ data.platform == 'PC (Windows)' ? 'PC' : (data.platform == 'Web Browser' ? 'Web' : 'Web & PC') }}</p>
+                        'green1': data.platform !='PC (Windows)' && data.platform != 'Web Browser'}">
+              <p>{{ data.platform == 'PC (Windows)' ? 'PC' : (data.platform == 'Web Browser' ? 'Web' : 'WB&PC') }}</p>
                 </v-card>
                 <v-icon v-if="data.platform== 'PC (Windows)'" class="icon1">mdi-monitor</v-icon>
                 <v-icon v-if="data.platform== 'Web Browser'" class="icon1">mdi-web-box</v-icon>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import Item from '@/models/Item'
+import Item from '@/database/models/Item'
 export default {
   name: "GamePage",
   data() {
@@ -87,20 +87,15 @@ export default {
   },
   async created() { 
     try {
-      /* if(localStorage.getItem('Data')){
-        const data2 = JSON.parse(localStorage.getItem('Data'));
-        console.log("hey"+data2)
-        this.datas = data2;
-      }else{ */
-        //const { data } = await this.$axios.get("/api/api1/games");
-        //console.log("hey2"+data);
-        //data.sort((a, b) => a.id - b.id);
-        //this.datas = data;
-        //const items = Item.all();
-        const items = Item.all();
-        console.log("hey2"+items);
-        this.datas = items;
-      
+      if(localStorage.getItem('Data')){
+          const a = JSON.parse(localStorage.getItem('Data'))
+          this.datas = a
+      }else{
+          const { data } = await this.$axios.get("/api/api1/games");
+          data.sort((a, b) => a.id - b.id);
+          this.datas = data;
+      }
+      console.log("hey"+Item.all());
     } catch (error) {
       console.error(error);
     }
@@ -173,6 +168,7 @@ export default {
       this.genre = null;
       this.platform = null;
       this.sort = null;
+      this.page = 1;
     },
   },
   head() {

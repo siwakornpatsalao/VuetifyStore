@@ -6,7 +6,7 @@ export default class Item extends Model{
 
     static fields(){
         return{
-            id: this.attr(null),
+            id: this.uid(),
             title: this.attr(''),
             genre: this.attr(''),
             thumbnail: this.attr(''),

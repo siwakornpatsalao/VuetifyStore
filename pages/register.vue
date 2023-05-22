@@ -70,7 +70,7 @@
         </v-card>
 
         <!--<v-btn color="primary" @click="e1 = 2"> Continue </v-btn>-->
-        <v-btn color="primary" @click="toPage2"> Continue </v-btn>
+        <v-btn color="primary" :disabled="!check1" @click="toPage2"> Continue </v-btn>
 
         <v-btn @click="e1 = 1" text>Cancel</v-btn>
       </v-stepper-content>
@@ -141,7 +141,7 @@
         </v-card>
 
         <!--<v-btn color="primary" @click="e1 = 3"> Continue </v-btn>-->
-        <v-btn color="primary" @click="toPage3"> Continue </v-btn>
+        <v-btn color="primary" :disabled="!check2" @click="toPage3"> Continue </v-btn>
 
         <v-btn @click="e1 = 1" text>Cancel</v-btn>
       </v-stepper-content>
@@ -194,6 +194,12 @@ export default {
         password: this.password,
         passwordC: this.passwordC,
       };
+    },
+    check1(){
+      return Object.values(this.form).every((value) => !!value);
+    },
+    check2(){
+      return Object.values(this.form2).every((value) => !!value);
     },
     form2(){
       return{

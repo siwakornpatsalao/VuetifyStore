@@ -3,7 +3,7 @@
         <v-row>
             <v-col>
                 <h1>{{ datas[0].title}}</h1><br>
-                <img :src="datas[0].thumbnail" height="500px">
+                <v-img :src="datas[0].thumbnail" height="500px" width="800px"></v-img>
                 <p size="30px">{{ datas[0].short_description }}</p>
                 <br>
                 <p size="30px">Genre: {{ datas[0].genre }}</p>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Item from '../models/Item'
+//import Item from '../database/models/Item';
 export default {
     data(){
         return{
@@ -37,20 +37,16 @@ export default {
         this.id = this.$route.params.id;
     },
     async asyncData({ $axios, params }) {
-        /* if(localStorage.getItem('Data')){
-            const data2 = JSON.parse(localStorage.getItem('Data'));
-            const filteredData = data2.filter(key => key.id === Number(params.id));
-            return { datas: filteredData };
-        }else{ */
-            /* const { data } = await $axios.get("/api/api1/games");
-            console.log(data);
-            const filteredData = data.filter(key => key.id === Number(params.id));
-            return { datas: filteredData }; */
-            const items = Item.all();
-            console.log("hey2"+items);
-            //this.datas = items;
-            const filteredData = items.filter(key => key.id === Number(params.id));
-            return { datas: filteredData };
+        if(localStorage.getItem('Data')){
+          const a = JSON.parse(localStorage.getItem('Data'))
+          //localStorage.clear();
+          const filteredData = a.filter(key => key.id === Number(params.id));
+          return { datas: filteredData };
+        }else{
+          const { data } = await $axios.get("/api/api1/games");
+          const filteredData = data.filter(key => key.id === Number(params.id));
+          return { datas: filteredData };
+        }
     },
     /* async mounted(){
         this.id = this.$route.params.id;

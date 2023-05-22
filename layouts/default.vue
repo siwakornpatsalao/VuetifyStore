@@ -64,14 +64,14 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-gamepad-variant',
-          title: 'Game List',
-          to: '/gameList'
-        },
-        {
           icon: 'mdi-plus-circle-outline',
           title: 'Add Game',
           to: '/add'
+        },
+        {
+          icon: 'mdi-account-multiple-plus-outline',
+          title: 'Register',
+          to: '/register'
         }
       ],
       miniVariant: false,
