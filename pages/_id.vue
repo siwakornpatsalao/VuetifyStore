@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import Item from '../models/Item'
 export default {
     data(){
         return{
@@ -41,11 +42,15 @@ export default {
             const filteredData = data2.filter(key => key.id === Number(params.id));
             return { datas: filteredData };
         }else{ */
-            const { data } = await $axios.get("/api/api1/games");
+            /* const { data } = await $axios.get("/api/api1/games");
             console.log(data);
             const filteredData = data.filter(key => key.id === Number(params.id));
+            return { datas: filteredData }; */
+            const items = Item.all();
+            console.log("hey2"+items);
+            //this.datas = items;
+            const filteredData = items.filter(key => key.id === Number(params.id));
             return { datas: filteredData };
-        
     },
     /* async mounted(){
         this.id = this.$route.params.id;

@@ -9,7 +9,7 @@
       <v-container>
         <v-row>
           <!--<pre>{{datas}}</pre>-->
-          <v-col v-for="data in this.datas" :key="data.id">
+          <v-col v-for="data in filterList" :key="data.id">
             <v-card
               width="220"
               color="#121212"
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import Item from '@/models/Item'
 export default {
   name: "GamePage",
   data() {
@@ -91,10 +92,14 @@ export default {
         console.log("hey"+data2)
         this.datas = data2;
       }else{ */
-        const { data } = await this.$axios.get("/api/api1/games");
-        console.log("hey2"+data);
+        //const { data } = await this.$axios.get("/api/api1/games");
+        //console.log("hey2"+data);
         //data.sort((a, b) => a.id - b.id);
-        this.datas = data;
+        //this.datas = data;
+        //const items = Item.all();
+        const items = Item.all();
+        console.log("hey2"+items);
+        this.datas = items;
       
     } catch (error) {
       console.error(error);
@@ -103,7 +108,7 @@ export default {
   computed: {
     filterList() {
 
-     /*  const start = (this.page - 1) * this.perPage;
+      const start = (this.page - 1) * this.perPage;
       const end = start + this.perPage;
 
       let filteredData = this.datas.filter((data) => {
@@ -122,7 +127,7 @@ export default {
         });
       }
 
-      return filteredData.slice(start, end); */
+      return filteredData.slice(start, end);
     },
 
     genres(){
@@ -188,3 +193,5 @@ export default {
 @import '@/assets/tag.css';
 @import '@/assets/frame.css';
 </style>
+
+

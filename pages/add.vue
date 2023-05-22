@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import Item from '../classes/item';
+import Item from '../models/Item';
 
 //import Game from '@/models/Game'
 export default {
@@ -129,18 +129,10 @@ export default {
     },
     async created() {
     try {
-      /* if(localStorage.getItem('Data')){
-        const a = JSON.parse(localStorage.getItem('Data'))
         //localStorage.clear();
-        this.datas = a
-      }else{ */
         const { data } = await this.$axios.get("/api/api1/games");
-        //console.log(data);
-        //localStorage.clear();
-        //data.sort((a, b) => a.id - b.id);
+        data.sort((a, b) => a.id - b.id);
         this.datas = data;
-        //localStorage.setItem('Data', JSON.stringify(data));
-      
     } catch (error) {
         console.error(error);
         }
@@ -167,10 +159,7 @@ export default {
               id: this.id,
               release_date: this.date,
             }
-        }/* ,
-        items(){
-          return Item.all()
-        } */
+        }
     },
     methods: {
         pre_thumbnail(){
@@ -184,26 +173,17 @@ export default {
         },
         save(){
           this.id = this.getMaxId() + 1;
-          this.datas.push(this.form)
-          //this.datas2.push(this.datas)
-          //localStorage.setItem('Data', JSON.stringify(this.datas));
-          console.log('Max ID:', this.getMaxId());
+          this.datas.push(this.form);
+          Item.insert({data: this.datas});
+        },
+        retrieve(){
+          console.log(Item.all());
         },
         getMaxId() {
           const maxId = this.datas.reduce(
             (max, item) => (item.id > max ? item.id : max),this.datas[0].id);
           return maxId;
         },
-        retrieve(){
-          //const data = localStorage.getItem('Data');
-          console.log(data);
-        },
-        add(){
-            Item.insert({data : this.form})
-        },
-        getData(){
-          return Item.all()
-        }
     }
 }
 </script>

@@ -18,4 +18,8 @@ export default class Item extends Model{
             release_date: this.attr(''),
         }
     }
+
+    static insert({ data }) {
+        return this.insertOrUpdate({ data });
+      }
 }
