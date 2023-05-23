@@ -32,6 +32,24 @@
         </v-list-item>
       </v-list>
 
+      <v-spacer></v-spacer>
+
+      <v-list color="secondary" style="display: flex; flex-direction: row;">
+        <v-list-item
+          v-for="(item, i) in items2"
+          :key="i"
+          :to="item.to"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
     </v-app-bar>
     <v-main class="custom">
       <v-container>
@@ -68,10 +86,12 @@ export default {
           title: 'Add Game',
           to: '/add'
         },
+      ],
+      items2: [
         {
-          icon: 'mdi-account-multiple-plus-outline',
-          title: 'Register',
-          to: '/register'
+          icon: 'mdi-account-multiple',
+          title: 'Login',
+          to: '/login'
         }
       ],
       miniVariant: false,

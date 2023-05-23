@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-stepper v-model="e4" vertical>
+        <v-stepper class="mx-auto" style="max-width: 850px"  v-model="e4" vertical>
     <v-stepper-step :complete="e4 > 1" step="1">
       Basic Information
       <small>Summarize if needed</small>
@@ -9,12 +9,15 @@
     <v-stepper-content step="1">
       <v-card color="#121212" class="mb-5" height="550px">
         <v-card-text>
+          <v-form v-model="isFormValid">
             <v-text-field v-model="title"
-                          label="Game Title">
+                          label="Game Title"
+                          :rules="[() => !!title || 'Game Title Required']">>
             </v-text-field>
             <v-select v-model="genre"
                 :items="genres"
-                label="Select Genre">
+                label="Select Genre"
+                :rules="[() => !!genre || 'Genre Required']">
             </v-select> 
             <v-icon v-if=!this.thumbnail width="250.25" height="270.66"></v-icon>
             <v-img v-if=!this.thumbnail ></v-img>
@@ -22,11 +25,13 @@
             <v-file-input @change="pre_thumbnail"
                           style="max-width: 200px;"
                           v-model="thumbnail" 
-                          label="Input thumbnail"></v-file-input>
+                          label="Input thumbnail"
+                          :rules="[() => !!thumbnail || 'Game Image Required']"></v-file-input>
+            </v-form>
             
         </v-card-text>
       </v-card>
-      <v-btn color="primary" @click="e4=2">Continue</v-btn> <!-- :disabled="!check1" -->
+      <v-btn color="primary" :disabled="!isFormValid" @click="e4=2">Continue</v-btn> <!-- :disabled="!check1" -->
 
       <v-btn @click="e4=1">Cancel</v-btn>
     </v-stepper-content>
@@ -36,13 +41,17 @@
     <v-stepper-content step="2">
         <v-card color="#121212" class="mb-5" height="500px">
           <v-card-text>
+            <v-form v-model="isFormValid2">
             <v-select v-model="platform"
                 :items="platforms"
-                label="Select Platform">
+                label="Select Platform"
+                :rules="[() => !!platform || 'Game Platform Required']">
             </v-select> 
-            <v-text-field v-model="publisher" label="Publisher">
+            <v-text-field v-model="publisher" label="Publisher"
+            :rules="[() => !!publisher || 'Publisher Required']">
             </v-text-field>
-            <v-text-field v-model="developer" label="Developer">
+            <v-text-field v-model="developer" label="Developer"
+            :rules="[() => !!developer || 'Developer Required']">
             </v-text-field>
             <v-text-field v-model="game_url" label="Game URL (Optional)">
             </v-text-field>
@@ -71,11 +80,11 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
+            </v-form>
 
           </v-card-text>
-        <!-- Publisher and Game URL Data -->
         </v-card>
-      <v-btn color="primary" @click="e4 = 3">Continue</v-btn>
+      <v-btn color="primary" :disabled="!isFormValid2" @click="e4 = 3">Continue</v-btn>
       <v-btn @click="e4 = 1">Cancel</v-btn>
     </v-stepper-content>
 
@@ -84,20 +93,34 @@
     <v-stepper-content step="3">
       <v-card color="#121212" class="mb-5" height="200px">
         <v-card-text>
-          <v-text-field v-model="short_description" label="Game Description"></v-text-field>
-        </v-card-text>ั
+          <v-form v-model="isFormValid3">
+          <v-text-field v-model="short_description" label="Game Description"
+          :rules="[() => !!short_description || 'Description Required']"></v-text-field>
+        </v-form>
+        </v-card-text>
       </v-card>
-      <v-btn color="primary" @click="e4 = 4">Continue</v-btn>
-      <v-btn @click="e4 = 2">Cancel</v-btn>
-    </v-stepper-content>
 
-    <v-stepper-step step="4">Optional Information</v-stepper-step>
-    <v-stepper-content step="4">
-      <v-card color="grey lighten-1" class="mb-5" height="200px">
-        <!--GAMEURL-->
-      </v-card>
-      <v-btn color="primary" @click="save">Continue</v-btn>
-      <v-btn @click="retrieve">Cancel</v-btn>
+      <v-dialog
+              v-model="dialog"
+              width="550px"
+              height="500px"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn color="primary"  v-bind="props" 
+              :disabled="!isFormValid3" @click="dialog = true" >Continue</v-btn></template>
+                  <v-card width="600px"
+              height="150px">
+                <v-card-text>
+                 <h1 style="margin-top: 50px"> Congratulations, Your Game is Added</h1>
+                </v-card-text>
+                <v-card-actions style="margin-top:20px">
+                  <v-btn color="primary" width="220px" @click="goIndex()">Go to Index Page</v-btn>
+                  <v-btn color="grey" width="220px" @click="reset">Add New Game</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+      <v-btn @click="e4 = 2">Cancel</v-btn>
     </v-stepper-content>
   </v-stepper>
     </div>
@@ -111,6 +134,10 @@ export default {
     data(){
         return{
             e4: 1,
+            dialog: false,
+            isFormValid: false,
+            isFormValid2: false,
+            isFormValid3: false,
             datas: [],
             datas2: [],
             title: "",
@@ -170,6 +197,16 @@ export default {
         }
     },
     methods: {
+        goIndex(){
+          this.id = this.getMaxId() + 1;
+          this.datas.push(this.form);
+          //Item.insert({data: this.datas});
+          localStorage.setItem('Data', JSON.stringify(this.datas));
+
+          this.$router.push({name:"index"});
+          //this.$router.push(`/`,this.username);
+          console.log(this.username)
+        },
         pre_thumbnail(){
           const file = this.thumbnail;
       
@@ -179,7 +216,25 @@ export default {
           };
           reader.readAsDataURL(file);
         },
-        save(){
+        getMaxId() {
+          const maxId = this.datas.reduce(
+            (max, item) => (item.id > max ? item.id : max),this.datas[0].id);
+          return maxId;
+        },
+        reset(){
+          this.e4 = 1;
+          this.title= "";
+          this.url = "";
+          this.genre = "";
+          this.platform = "";
+          this.game_url ="";
+          this.publisher = "";
+          this.developer = "";
+          this.short_description = "";
+          this.date =  new Date().toISOString().substr(0, 10);
+          this.dialog = false;
+        },
+       /*  save(){
           this.id = this.getMaxId() + 1;
           this.datas.push(this.form);
           //Item.insert({data: this.datas});
@@ -189,12 +244,7 @@ export default {
           const data = localStorage.getItem('Data');
           console.log(data);
           console.log(Item.all());
-        },
-        getMaxId() {
-          const maxId = this.datas.reduce(
-            (max, item) => (item.id > max ? item.id : max),this.datas[0].id);
-          return maxId;
-        },
+        }, */
     }
 }
 </script>
