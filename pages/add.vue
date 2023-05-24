@@ -1,6 +1,10 @@
 <template>
-    <div>
-        <v-stepper class="mx-auto" style="max-width: 850px"  v-model="e4" vertical>
+  <div>
+
+    <v-toolbar  class="mx-auto" width="850px" color="rgb(28, 123, 139)" >
+      <v-toolbar-title>Add Game</v-toolbar-title>
+    </v-toolbar>
+        <v-stepper  class="mx-auto" style="max-width: 850px"  v-model="e4" vertical>
     <v-stepper-step :complete="e4 > 1" step="1">
       Basic Information
       <small>Summarize if needed</small>
@@ -9,18 +13,19 @@
     <v-stepper-content step="1">
       <v-card color="#121212" class="mb-5" height="550px">
         <v-card-text>
-          <v-form v-model="isFormValid">
+          <v-form ref="form" v-model="isFormValid">
             <v-text-field v-model="title"
+                          outlined
                           label="Game Title"
                           :rules="[() => !!title || 'Game Title Required']">>
             </v-text-field>
             <v-select v-model="genre"
+                outlined
                 :items="genres"
                 label="Select Genre"
                 :rules="[() => !!genre || 'Genre Required']">
             </v-select> 
             <v-icon v-if=!this.thumbnail width="250.25" height="270.66"></v-icon>
-            <v-img v-if=!this.thumbnail ></v-img>
             <v-img v-else cover :src="url" width="250.25" height="270.66"></v-img>
             <v-file-input @change="pre_thumbnail"
                           style="max-width: 200px;"
@@ -31,7 +36,7 @@
             
         </v-card-text>
       </v-card>
-      <v-btn color="primary" :disabled="!isFormValid" @click="e4=2">Continue</v-btn> <!-- :disabled="!check1" -->
+      <v-btn color="rgb(28, 123, 139)" :disabled="!isFormValid" @click="e4=2">Continue</v-btn> <!-- :disabled="!check1" -->
 
       <v-btn @click="e4=1">Cancel</v-btn>
     </v-stepper-content>
@@ -41,19 +46,20 @@
     <v-stepper-content step="2">
         <v-card color="#121212" class="mb-5" height="500px">
           <v-card-text>
-            <v-form v-model="isFormValid2">
+            <v-form ref="form2" v-model="isFormValid2">
             <v-select v-model="platform"
                 :items="platforms"
                 label="Select Platform"
+                outlined
                 :rules="[() => !!platform || 'Game Platform Required']">
             </v-select> 
-            <v-text-field v-model="publisher" label="Publisher"
+            <v-text-field outlined v-model="publisher" label="Publisher"
             :rules="[() => !!publisher || 'Publisher Required']">
             </v-text-field>
-            <v-text-field v-model="developer" label="Developer"
+            <v-text-field outlined v-model="developer" label="Developer"
             :rules="[() => !!developer || 'Developer Required']">
             </v-text-field>
-            <v-text-field v-model="game_url" label="Game URL (Optional)">
+            <v-text-field outlined v-model="game_url" label="Game URL (Optional)">
             </v-text-field>
             <v-col>
                 <v-menu
@@ -93,8 +99,8 @@
     <v-stepper-content step="3">
       <v-card color="#121212" class="mb-5" height="200px">
         <v-card-text>
-          <v-form v-model="isFormValid3">
-          <v-text-field v-model="short_description" label="Game Description"
+          <v-form ref="form3" v-model="isFormValid3">
+          <v-text-field outlined v-model="short_description" label="Game Description"
           :rules="[() => !!short_description || 'Description Required']"></v-text-field>
         </v-form>
         </v-card-text>
@@ -103,19 +109,18 @@
       <v-dialog
               v-model="dialog"
               width="550px"
-              height="500px"
-            >
+              height="500px">
               <template v-slot:activator="{ props }">
                 <v-btn color="primary"  v-bind="props" 
               :disabled="!isFormValid3" @click="dialog = true" >Continue</v-btn></template>
                   <v-card width="600px"
               height="150px">
                 <v-card-text>
-                 <h1 style="margin-top: 50px"> Congratulations, Your Game is Added</h1>
+                 <h1 style="margin-top: 50px"> You are Adding Game, Are you sure?</h1>
                 </v-card-text>
                 <v-card-actions style="margin-top:20px">
-                  <v-btn color="primary" width="220px" @click="goIndex()">Go to Index Page</v-btn>
-                  <v-btn color="grey" width="220px" @click="reset">Add New Game</v-btn>
+                  <v-btn color="primary" width="220px" @click="goIndex()">Yes</v-btn>
+                  <v-btn style="margin-left: 50px"  color="grey" width="220px" @click="reset">Add New Game</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -209,12 +214,16 @@ export default {
         },
         pre_thumbnail(){
           const file = this.thumbnail;
-      
-          const reader = new FileReader();
+
+          if(file){
+            const reader = new FileReader();
           reader.onload = () => {
             this.url = reader.result;
           };
           reader.readAsDataURL(file);
+          }else{
+            this.url = null;
+          }
         },
         getMaxId() {
           const maxId = this.datas.reduce(
@@ -223,14 +232,9 @@ export default {
         },
         reset(){
           this.e4 = 1;
-          this.title= "";
-          this.url = "";
-          this.genre = "";
-          this.platform = "";
-          this.game_url ="";
-          this.publisher = "";
-          this.developer = "";
-          this.short_description = "";
+          this.$refs.form.reset();
+          this.$refs.form2.reset();
+          this.$refs.form3.reset();
           this.date =  new Date().toISOString().substr(0, 10);
           this.dialog = false;
         },

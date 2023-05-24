@@ -1,10 +1,12 @@
 <template>
     <div style="margin-top: 200px ">
-        <v-card width="450" class="mx-auto">
+        <v-card width="700" height="500" class="mx-auto">
         <v-sheet width="400" height="380px" class="mx-auto" >
             <v-form fast-fail @submit.prevent="login(username)" v-model="isLoginValid">
+                <v-row >
+                <v-col style="margin-top: 40px">
                 <v-card-text style="display: flex; align-items: center; margin-bottom: 20px;">
-                    <v-icon style="margin-right: 8px;">mdi-account </v-icon> <h2>LOGIN</h2>
+                    <v-icon size="50px" style="margin-right: 8px;">mdi-account </v-icon> <h1>LOGIN</h1>
                 </v-card-text>
                 <v-text-field variant="outlined" outlined v-model="username" label="Username"
                 :rules="[() => !!username || 'Username Required']"
@@ -27,14 +29,18 @@
               <template v-slot:activator="{ props }">
            <v-btn :disabled="!isLoginValid" type="submit" color="primary" block class="mt-2" @click="login(username)"
                   v-bind="props"> Sign in </v-btn></template>
+                  <v-col>
                   <v-card width="500px"
               height="80px">
                 <v-card-text>
                  <h1 style="margin-top: 10px"> {{dialogText}}</h1>
                 </v-card-text>
               </v-card>
+                </v-col>
             </v-dialog> 
 
+        </v-col>
+    </v-row>
             </v-form>
             <div class="mt-2">
                 <p class="text-body-2">Don't have an account? <a @click="goSign">Sign Up</a></p>
@@ -58,13 +64,13 @@ export default {
         login(username) {
             let a = JSON.parse(localStorage.getItem('User'))
             let exist = false;
-            a.forEach(user =>{
+            for (let user of a) {
                 if(user.username == this.username){
                 console.log("Have this username");
                 exist = true;
                 this.checkPassword(user,username);
                 }
-            })
+            }
             if(exist == false){
                 this.dialog = true;
                 this.dialogText = "No username in database"
@@ -72,7 +78,9 @@ export default {
         },
         checkPassword(user,username){
             if(user.password == this.password){
-                this.$router.push({name:"index",params:{username}});
+                localStorage.setItem("username", username);
+                this.$router.push({name:"index"});
+                //this.$router.push({name:"index",params:{username}});
             }else{
                 this.dialog = true;
                 this.dialogText = "Password is wrong"

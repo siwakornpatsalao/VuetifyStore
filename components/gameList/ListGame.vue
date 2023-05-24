@@ -95,9 +95,7 @@ export default {
           data.sort((a, b) => a.id - b.id);
           this.datas = data;
       }
-      const data = localStorage.getItem('User')
-      console.log("heyyyyy"+data);
-      //console.log("hey"+Item.all());
+      console.log(JSON.parse(localStorage.getItem('User')));
     } catch (error) {
       console.error(error);
     }

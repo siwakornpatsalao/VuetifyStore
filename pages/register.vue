@@ -1,5 +1,8 @@
 <template>
-  
+  <div style="margin-top: 100px">
+  <v-toolbar  class="mx-auto" width="700px" color="rgb(28, 123, 139)" >
+      <v-toolbar-title>Add New Account</v-toolbar-title>
+    </v-toolbar>
   <v-stepper class="mx-auto" style="max-width: 700px" v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1"
@@ -15,13 +18,13 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-card class="mb-5" color="black" height="380px">
+        <v-card class="mb-5" color="#121212" height="380px">
           <v-card-text>
-            <v-form v-model="isFormValid">
+            <v-form ref="form" v-model="isFormValid">
             <v-text-field
               label="username"
               v-model="username"
-              :rules="[() => !!username || 'UserName Required']">
+              :rules="[() => !!username || 'UserName Required', checkUsername]">
           </v-text-field>
             <v-text-field
               label="gmail"
@@ -34,45 +37,44 @@
               ]"
             ></v-text-field>
             <v-text-field
-              label="password"
-              v-model="password"
-              :rules="[
-                () => !!password || 'Password Required',
-                () => password.length >= 8 || 'Min 8 character',
-              ]"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="show1 = !show1"
-              :type="show1 ? 'text' : 'password'"
-              counter
-            >
-            </v-text-field>
-            <v-text-field
-              label="confirm password"
-              v-model="passwordC"
-              :rules="[
-                () => !!passwordC || 'Password Confirm Required',
-                () => password == passwordC || 'Confirm Password not correct',
-              ]"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="show1 = !show1"
-              :type="show1 ? 'text' : 'password'"
-              counter
-            >
-            </v-text-field>
+                label="password"
+                v-model="password"
+                :rules="[
+                  () => !!password || 'Password Required',
+                  () => (password && password.length >= 8) || 'Min 8 characters',
+                ]"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show1 = !show1"
+                :type="show1 ? 'text' : 'password'"
+                counter
+              ></v-text-field>
+              <v-text-field
+                label="confirm password"
+                v-model="passwordC"
+                :rules="[
+                  () => !!passwordC || 'Password Confirm Required',
+                  () => (password && passwordC && password === passwordC) || 'Confirm Password not correct',
+                ]"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show1 = !show1"
+                :type="show1 ? 'text' : 'password'"
+                counter
+              ></v-text-field>
+
           </v-form>
 
           </v-card-text>
         </v-card>
 
         <!--<v-btn color="primary" @click="e1 = 2"> Continue </v-btn>-->
-        <v-btn color="primary" :disabled="!isFormValid" @click="e1=2"> Continue </v-btn>
+        <v-btn color="rgb(28, 123, 139)" :disabled="!isFormValid" @click="e1=2"> Continue </v-btn>
 
         <v-btn @click="e1 = 1" text>Cancel</v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <v-card class="mb-5" color="black" height="700px">
-          <v-form v-model="isFormValid2">
+        <v-card class="mb-5" color="#121212" height="700px">
+          <v-form ref="form2" v-model="isFormValid2">
           <v-card-text>
             <v-text-field
               label="name"
@@ -145,11 +147,11 @@
                   <v-card width="500px"
               height="150px">
                 <v-card-text>
-                 <h1 style="margin-top: 10px"> Congratulations, You're all setup!</h1>
+                 <h1 style="margin-top: 10px"> You're Adding New Account, Are you sure?</h1>
                 </v-card-text>
                 <v-card-actions style="margin-top:20px">
-                  <v-btn color="primary" width="220px" @click="goTo(username)">Go to Index Page</v-btn>
-                  <v-btn color="grey" width="220px" @click="reset">Create New Account</v-btn>
+                  <v-btn color="primary" width="220px" @click="goTo(username)">Yes</v-btn>
+                  <v-btn style="margin-left: 40px" color="grey" width="220px" @click="reset">Create New Account</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -159,6 +161,7 @@
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
+</div>
 </template>
 
 <script>
@@ -179,6 +182,7 @@ export default {
       passwordC: "",
       alert: false,
       alert2: false,
+      datas: [],
       country: "",
       city: "",
       cities: [
@@ -215,27 +219,37 @@ export default {
   },
   methods: {
     goTo(username) {
-      let data = JSON.parse(localStorage.getItem('User'));
+      if(JSON.parse(localStorage.getItem('User'))){
+        let data = JSON.parse(localStorage.getItem('User'));
       if (!data) {
         data = [];
       }
       data.push(this.form);
       localStorage.setItem('User', JSON.stringify(data));
       this.$router.push({ name: "index", params: { username } });
+      }else{
+        this.datas.push(this.form);
+        localStorage.setItem('User', JSON.stringify(this.datas));
+        this.$router.push({ name: "index", params: { username } });
+      }
     },
     reset(){
       this.e1 = 1;
-      this.username= "";
-      this.name = "";
-      this.surname = "";
-      this.gmail ="";
-      this.password = "";
-      this.passwordC = "";
-      this.country = "";
-      this.city = "";
-      this.ageCal = "";
+      this.$refs.form.reset();
+      this.$refs.form2.reset();
       this.date =  new Date().toISOString().substr(0, 10);
       this.dialog = false;
+    },
+    checkUsername() {
+      if(JSON.parse(localStorage.getItem('User'))){
+        const userData = JSON.parse(localStorage.getItem('User'));
+      for (let user of userData) {
+        if (user.username === this.username) {
+          return 'Username already in use';
+        }
+      }
+      return true;
+      }
     }
   },
   head() {
