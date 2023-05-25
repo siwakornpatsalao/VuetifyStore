@@ -105,25 +105,7 @@
         </v-form>
         </v-card-text>
       </v-card>
-
-      <v-dialog
-              v-model="dialog"
-              width="550px"
-              height="500px">
-              <template v-slot:activator="{ props }">
-                <v-btn color="primary"  v-bind="props" 
-              :disabled="!isFormValid3" @click="dialog = true" >Continue</v-btn></template>
-                  <v-card width="600px"
-              height="150px">
-                <v-card-text>
-                 <h1 style="margin-top: 50px"> You are Adding Game, Are you sure?</h1>
-                </v-card-text>
-                <v-card-actions style="margin-top:20px">
-                  <v-btn color="primary" width="220px" @click="goIndex()">Yes</v-btn>
-                  <v-btn style="margin-left: 50px"  color="grey" width="220px" @click="reset">Add New Game</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+        <v-btn color="primary"  v-bind="props" :disabled="!isFormValid3" @click="goIndex()" >Continue</v-btn>
 
       <v-btn @click="e4 = 2">Cancel</v-btn>
     </v-stepper-content>
@@ -133,6 +115,7 @@
 
 <script>
 import Item from '../database/models/Item';
+import Swal from 'sweetalert2'
 
 //import Game from '@/models/Game'
 export default {
@@ -203,14 +186,36 @@ export default {
     },
     methods: {
         goIndex(){
-          this.id = this.getMaxId() + 1;
-          this.datas.push(this.form);
-          //Item.insert({data: this.datas});
-          localStorage.setItem('Data', JSON.stringify(this.datas));
-
-          this.$router.push({name:"index"});
-          //this.$router.push(`/`,this.username);
-          console.log(this.username)
+          Swal.fire({
+            title: '<strong>You Are Adding New Game</strong>',
+            text: 'Are You Sure?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3085d6',
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              this.id = this.getMaxId() + 1;
+              this.datas.push(this.form);
+              //Item.insert({data: this.datas});
+              localStorage.setItem('Data', JSON.stringify(this.datas));
+              Swal.fire({
+                title: 'Your Game is Added', 
+                icon:'success',
+                showCancelButton: true,
+                confirmButtonText: 'Go To Index Page',
+                cancelButtonText: 'Add New Game Data'
+              }).then((result)=>{
+                  if(result.isConfirmed){
+                    this.$router.push({name:"index"});
+                  }else if(result.isDismissed){
+                    Swal.fire('We will take you to Add Game page', '', 'info')
+                    this.reset();
+                  }
+                })
+            } 
+          })
         },
         pre_thumbnail(){
           const file = this.thumbnail;

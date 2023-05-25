@@ -136,26 +136,9 @@
         </v-form>
         </v-card>
 
-       <v-dialog
-              v-model="dialog"
-              width="500px"
-              height="500px"
-            >
-              <template v-slot:activator="{ props }">
-           <v-btn color="primary" :disabled="ageCal<=0 || !isFormValid2" @click="dialog = true"
-                  v-bind="props"> Continue </v-btn></template>
-                  <v-card width="500px"
-              height="150px">
-                <v-card-text>
-                 <h1 style="margin-top: 10px"> You're Adding New Account, Are you sure?</h1>
-                </v-card-text>
-                <v-card-actions style="margin-top:20px">
-                  <v-btn color="primary" width="220px" @click="goTo(username)">Yes</v-btn>
-                  <v-btn style="margin-left: 40px" color="grey" width="220px" @click="reset">Create New Account</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-
+       
+           <v-btn color="primary" :disabled="ageCal<=0 || !isFormValid2" @click="goTo(username)"
+                  > Continue </v-btn>
 
         <v-btn @click="e1 = 1" text>Cancel</v-btn>
       </v-stepper-content>
@@ -165,6 +148,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   name: "Register",
   data() {
@@ -224,13 +208,42 @@ export default {
       if (!data) {
         data = [];
       }
-      data.push(this.form);
-      localStorage.setItem('User', JSON.stringify(data));
-      this.$router.push({ name: "index", params: { username } });
+        Swal.fire({
+            title: '<strong>You Are Adding New Account</strong>',
+            text: 'Are You Sure?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3085d6',
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: 'Your Account is Added', 
+                icon:'success'})
+              data.push(this.form);
+              localStorage.setItem('User', JSON.stringify(data));
+              this.$router.push({ name: "login"});
+            }})
       }else{
-        this.datas.push(this.form);
-        localStorage.setItem('User', JSON.stringify(this.datas));
-        this.$router.push({ name: "index", params: { username } });
+        Swal.fire({
+            title: '<strong>You Are Adding New Account</strong>',
+            text: 'Are You Sure?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3085d6',
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: 'Your Account is Added', 
+                icon:'success'})
+              this.datas.push(this.form);
+              localStorage.setItem('User', JSON.stringify(this.datas));
+              this.$router.push({ name: "login"});
+            }})
+
       }
     },
     reset(){

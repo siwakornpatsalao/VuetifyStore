@@ -21,7 +21,7 @@
           v-for="(item, i) in items"
           :key="i"
           :to="item.to"
-          link
+          link     
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -51,27 +51,7 @@
           <v-list-item-content>
 
             <v-list-item-title v-if="username">
-              <v-dialog
-              v-model="dialog"
-              width="500px"
-              height="500px"
-            >
-              <template v-slot:activator="{ props }">
-           <v-list-item-title type="submit" @click="dialog = true"
-                  v-bind="props"> Logout </v-list-item-title></template>
-                  <v-card
-                  width="800px"
-                  height="200px">
-                    <v-col>
-                      <h1 style="margin-top: 20px">You are Logging out</h1>
-                <v-card-actions style="margin-top:20px">
-                  <v-btn color="primary" height="50px" width="150px" @click="logout()">Yes</v-btn>
-                  <v-btn color="grey" style="margin-left: 100px" height="50px" width="150px" @click="dialog=false">Cancel</v-btn>
-                </v-card-actions>
-                    </v-col>
-              </v-card>
-            </v-dialog> 
-            
+           <v-list-item-title type="submit" @click="logout()" v-bind="props"> Logout </v-list-item-title>
             </v-list-item-title>
 
             <v-list-item-title v-else>{{ item.title }}</v-list-item-title>
@@ -96,6 +76,7 @@
 
 <script>
 import ver from '../package.json'
+import Swal from 'sweetalert2'
 export default {
   name: 'DefaultLayout',
   data () {
@@ -135,8 +116,23 @@ export default {
   },
   methods:{
     logout(){
-      const a = localStorage.setItem("username","");
-      this.username =  a;
+      Swal.fire({
+      title: 'Do you want to Logout',
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire('Logged out!', '', 'success')
+        const a = localStorage.setItem("username","");
+        this.username =  a;
+      } else if (result.isDenied) {
+      }
+    })
+/*       const a = localStorage.setItem("username","");
+      this.username =  a; */
     },
     login(){
       this.$router.push({name:"login"});

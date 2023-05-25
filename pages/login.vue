@@ -21,24 +21,8 @@
 
                 <!-- <v-btn :disabled="!isLoginValid" type="submit" color="primary" block class="mt-2">Sign in</v-btn> -->
 
-                <v-dialog
-              v-model="dialog"
-              width="500px"
-              height="500px"
-            >
-              <template v-slot:activator="{ props }">
            <v-btn :disabled="!isLoginValid" type="submit" color="primary" block class="mt-2" @click="login(username)"
-                  v-bind="props"> Sign in </v-btn></template>
-                  <v-col>
-                  <v-card width="500px"
-              height="80px">
-                <v-card-text>
-                 <h1 style="margin-top: 10px"> {{dialogText}}</h1>
-                </v-card-text>
-              </v-card>
-                </v-col>
-            </v-dialog> 
-
+                  v-bind="props"> Sign in </v-btn>
         </v-col>
     </v-row>
             </v-form>
@@ -49,7 +33,9 @@
     </v-card>
     </div>
 </template>
+
 <script>
+import Swal from 'sweetalert2';
 export default {
     data() {
         return {
@@ -72,8 +58,11 @@ export default {
                 }
             }
             if(exist == false){
-                this.dialog = true;
-                this.dialogText = "No username in database"
+                //Swal.fire('Hello, No username')
+                Swal.fire({
+                    title: '<strong>No Username</strong>',
+                    icon: 'error',
+                })
             }
         },
         checkPassword(user,username){
@@ -82,8 +71,10 @@ export default {
                 this.$router.push({name:"index"});
                 //this.$router.push({name:"index",params:{username}});
             }else{
-                this.dialog = true;
-                this.dialogText = "Password is wrong"
+                Swal.fire({
+                    title: '<strong>Password is wrong</strong>',
+                    icon: 'error',
+                })
             }
         },
         goSign(){
