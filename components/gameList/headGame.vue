@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-slide-group>
-            <v-slide-group-item v-for="data in datas" :key="data.id">
+            <v-slide-group-item v-for="data in datas2" :key="data.id">
                 <div class="slide-item">
                     <v-img class="head" @click="goTo(data)" :src="data.thumbnail"></v-img>
                 </div>
@@ -16,7 +16,7 @@ export default{
     data(){
         return{
             model: null,
-            datas: [],
+            datas2: [],
         }
     },
     async created() {
@@ -24,13 +24,10 @@ export default{
       const { data } = await this.$axios.get("/api/api1/games");
       console.log(data);
       data.sort((a, b) => a.id - b.id);
-      this.datas = data.slice(0,10);
+      this.datas2 = data.slice(0,10);
     } catch (error) {
       console.error(error);
     }
-  },
-  computed:{
-
   },
   methods:{
     goTo(data){

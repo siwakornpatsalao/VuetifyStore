@@ -8,8 +8,9 @@
 
 <script>
 import ListGame from '@/components/gameList/ListGame.vue'
-import HeadGame from '@/components/gameList/headGame.vue'
+import headGame from '@/components/gameList/headGame.vue'
 export default{
-  components: { ListGame, HeadGame },
+  name: "index",
+  components: { ListGame, headGame }
 }
 </script>

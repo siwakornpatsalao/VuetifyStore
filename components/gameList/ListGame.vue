@@ -63,7 +63,7 @@
 </v-row>
 
   <div class="text-center">
-    <v-pagination v-model="page" :length="Math.ceil(filterList/perPage)" :total-visible="7">
+    <v-pagination v-model="page" :length="Math.ceil(filter.length/perPage)" @input="update" :total-visible="7">
     </v-pagination>
   </div>
 
@@ -83,6 +83,7 @@ export default {
       sort: "",
       page: 1,
       perPage: 40,
+      filter: [],
     };
   },
   async created() { 
@@ -102,7 +103,6 @@ export default {
   },
   computed: {
     filterList() {
-
       const start = (this.page - 1) * this.perPage;
       const end = start + this.perPage;
 
@@ -121,8 +121,9 @@ export default {
           return data.platform === this.platform;
         });
       }
+      this.filter = filteredData;
 
-      return filteredData.slice(start, end);
+      return filteredData.slice(start, end);  
     },
 
     genres(){
@@ -131,7 +132,7 @@ export default {
       return genree
     },
     platforms(){
-      // แสดง genre ทั้งหมด
+      // แสดง platform ทั้งหมด
       const platformm = this.datas.map((item) => item.platform)
       return platformm
     }
