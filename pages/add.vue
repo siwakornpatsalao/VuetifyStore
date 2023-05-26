@@ -150,7 +150,7 @@ export default {
         }else{
           const { data } = await this.$axios.get("/api/api1/games");
           //localStorage.clear();
-          data.sort((a, b) => a.id - b.id);
+          data.sort((a, b) => Date.parse(b.release_date) - Date.parse(a.release_date));
           this.datas = data;
         }
     } catch (error) {

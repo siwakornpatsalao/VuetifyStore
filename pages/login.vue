@@ -48,17 +48,24 @@ export default {
     },
     methods: {
         login(username) {
-            let a = JSON.parse(localStorage.getItem('User'))
-            let exist = false;
-            for (let user of a) {
-                if(user.username == this.username){
-                console.log("Have this username");
-                exist = true;
-                this.checkPassword(user,username);
+            if(JSON.parse(localStorage.getItem('User'))){
+                let a = JSON.parse(localStorage.getItem('User'))
+                let exist = false;
+                for (let user of a) {
+                    if(user.username == this.username){
+                    console.log("Have this username");
+                    exist = true;
+                    this.checkPassword(user,username);
+                    }
                 }
-            }
-            if(exist == false){
-                //Swal.fire('Hello, No username')
+                if(exist == false){
+                    //Swal.fire('Hello, No username')
+                    Swal.fire({
+                        title: '<strong>No Username</strong>',
+                        icon: 'error',
+                    })
+                }
+            }else{
                 Swal.fire({
                     title: '<strong>No Username</strong>',
                     icon: 'error',

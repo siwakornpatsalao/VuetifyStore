@@ -2,6 +2,9 @@
   <div>
     <head-game></head-game>
     <br>
+    <hr/>
+    <br><br>
+    <h1 class="feature">Game List</h1>
     <list-game></list-game>
   </div>
 </template>
@@ -14,3 +17,8 @@ export default{
   components: { ListGame, headGame }
 }
 </script>
+
+<style scoped>
+@import '@/assets/frame.css';
+@import '@/assets/head.css';
+</style>

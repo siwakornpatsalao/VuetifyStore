@@ -1,9 +1,10 @@
 <template>
     <div style="margin-left: 150px">
         <v-row>
-            <v-col>
+            <v-col cols="7">
                 <h1>{{ datas[0].title}}</h1><br>
                 <v-img :src="datas[0].thumbnail" height="500px" width="800px"></v-img>
+                <br><br>
                 <p size="30px">{{ datas[0].short_description }}</p>
                 <br>
                 <p size="30px">Genre: {{ datas[0].genre }}</p>

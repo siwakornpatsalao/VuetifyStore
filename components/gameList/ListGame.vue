@@ -1,5 +1,6 @@
 <template>
   <div style="margin-left: 80px">
+    <br><br>
     <v-row>
   <v-col cols="9">
     <div>
@@ -90,10 +91,11 @@ export default {
     try {
       if(localStorage.getItem('Data')){
           const a = JSON.parse(localStorage.getItem('Data'))
+          a.sort((a, b) => Date.parse(b.release_date) - Date.parse(a.release_date));
           this.datas = a
       }else{
           const { data } = await this.$axios.get("/api/api1/games");
-          data.sort((a, b) => a.id - b.id);
+          data.sort((a, b) => Date.parse(b.release_date) - Date.parse(a.release_date));
           this.datas = data;
       }
       console.log(JSON.parse(localStorage.getItem('User')));
@@ -164,7 +166,7 @@ export default {
       this.page = pages;
     },
     reset(){
-      this.datas.sort((a, b) => a.id - b.id);
+      this.datas.sort((a, b) => Date.parse(b.release_date) - Date.parse(a.release_date));
       this.search = "";
       this.genre = null;
       this.platform = null;
@@ -189,6 +191,7 @@ export default {
 <style scoped>
 @import '@/assets/tag.css';
 @import '@/assets/frame.css';
+@import '@/assets/head.css';
 </style>
 
 

@@ -224,6 +224,7 @@ export default {
               data.push(this.form);
               localStorage.setItem('User', JSON.stringify(data));
               this.$router.push({ name: "login"});
+              //this.$router.push({ name: "login",params:{username}});
             }})
       }else{
         Swal.fire({
