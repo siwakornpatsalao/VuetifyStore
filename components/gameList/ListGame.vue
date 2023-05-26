@@ -36,9 +36,6 @@
               color="grey"
               >Base Game</span>
               <p size="14px">{{ data.title }}</p>
-              <!-- <p size="14px">{{ data.id }}</p> -->
-             <!--  <p size="14px">{{ data.genre }}</p>
-              <p size="14px">{{ data.platform }}</p> -->
             </v-card>
           </v-col>
         </v-row>
