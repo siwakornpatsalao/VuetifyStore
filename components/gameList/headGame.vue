@@ -1,18 +1,15 @@
 <template>
-  <div>
+  <div style="margin-left:90px">
     <br>
     <v-row>
-      <v-col cols="9">
+      <v-col cols="8">
         <v-carousel hide-delimiters height="500">
-          <v-carousel-item v-for="data in datas2" :key="data.id">
-            <div class="slide-item">
-              <v-img max-height="1000" @click="goTo(data)" :src="data.thumbnail"></v-img>
-            </div>
+          <v-carousel-item v-for="data in datas2" :key="data.id" @click="goTo(data)" :src="data.thumbnail" cover>
           </v-carousel-item>
         </v-carousel>
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="4" >
         <h1 class="feature">Feature Game</h1>
         <br><br><br>
         <v-row>

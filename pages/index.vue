@@ -1,7 +1,7 @@
 <template>
   <div>
     <head-game></head-game>
-    <br>
+    <br><br>
     <hr/>
     <br><br>
     <h1 class="feature">Game List</h1>
