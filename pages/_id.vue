@@ -92,15 +92,22 @@ export default {
       const filteredData = a.filter(key => key.id === Number(params.id));
 
       const genre = filteredData[0].genre; 
-      const relatedData = a.filter(key => key.genre === genre && key.id !== Number(params.id)).slice(0, 3);
-      return { datas: filteredData, sameGen: relatedData  };
+      
+      const relatedData = a.filter(key => key.genre === genre && key.id !== Number(params.id));
+      const shuffle = relatedData.sort(() => Math.random() - 0.5);
+      const randomData = shuffle.slice(0, 3);
+
+      return { datas: filteredData, sameGen: randomData  };
     } else {
       const { data } = await $axios.get("/api/api1/games");
       const filteredData = data.filter(key => key.id === Number(params.id));
 
       const genre = filteredData[0].genre; 
-      const relatedData = a.filter(key => key.genre === genre && key.id !== Number(params.id)).slice(0, 3);
-      return { datas: filteredData, sameGen: relatedData  };
+      
+      const relatedData = a.filter(key => key.genre === genre && key.id !== Number(params.id));
+      const shuffle = relatedData.sort(() => Math.random() - 0.5);
+      const randomData = shuffle.slice(0, 3);
+      return { datas: filteredData, sameGen: randomData  };
     }
   },
   methods:{
