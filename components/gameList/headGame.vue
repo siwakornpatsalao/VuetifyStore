@@ -14,7 +14,7 @@
         <br><br><br>
         <v-row>
           <v-col cols="4" v-for="dataa in new1" :key="dataa.id">
-            <v-img class="head" @click="goTo(dataa)" cover width="100.25" height="100.66" :src="dataa.thumbnail">
+            <v-img class="head" @click="goTo(dataa)" cover width="150.25" height="150.66" :src="dataa.thumbnail">
               <p class="thisYear">New Release</p>
             </v-img>
             <p>{{dataa.title}}</p>
