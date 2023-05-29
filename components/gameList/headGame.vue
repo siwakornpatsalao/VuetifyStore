@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="8">
         <v-carousel hide-delimiters height="500">
-          <v-carousel-item v-for="data in datas2" :key="data.id" @click="goTo(data)" :src="data.thumbnail" cover>
+          <v-carousel-item v-for="data in datas2" :key="data.id" @click="goTo(data)" :src="data.thumbnail" cover contain>
           </v-carousel-item>
         </v-carousel>
       </v-col>

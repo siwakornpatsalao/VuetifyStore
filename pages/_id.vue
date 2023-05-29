@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="7">
         <h2>{{ datas[0].title }}</h2><br>
-        <v-img :src="datas[0].thumbnail" height="500px" width="800px"></v-img>
+        <v-img cover :src="datas[0].thumbnail" height="480px" width="800px"></v-img>
         <br>
         <v-col><span size="30px">{{ datas[0].short_description }}</span> </v-col>
         <br>
@@ -104,7 +104,7 @@ export default {
 
       const genre = filteredData[0].genre; 
       
-      const relatedData = a.filter(key => key.genre === genre && key.id !== Number(params.id));
+      const relatedData = data.filter(key => key.genre === genre && key.id !== Number(params.id));
       const shuffle = relatedData.sort(() => Math.random() - 0.5);
       const randomData = shuffle.slice(0, 3);
       return { datas: filteredData, sameGen: randomData  };

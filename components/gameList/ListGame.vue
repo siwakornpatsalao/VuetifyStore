@@ -176,12 +176,6 @@ export default {
       title: "Game List",
     };
   },
-  /* async fetch() {
-    const { data } = await this.$axios.get("https://www.mmobomb.com/api1/games",{ mode: "no-cors" })
-    //data.sort((a, b) => a.id - b.id);
-    console.log(data)
-    this.datas = data
-  }, */
 };
 </script>
 

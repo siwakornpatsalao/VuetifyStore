@@ -105,7 +105,7 @@
         </v-form>
         </v-card-text>
       </v-card>
-        <v-btn color="primary"  v-bind="props" :disabled="!isFormValid3" @click="goIndex()" >Continue</v-btn>
+        <v-btn color="primary"  :disabled="!isFormValid3" @click="goIndex()" >Continue</v-btn>
 
       <v-btn @click="e4 = 2">Cancel</v-btn>
     </v-stepper-content>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import Item from '../database/models/Item';
+//import Item from '../database/models/Item';
 import Swal from 'sweetalert2'
 
 //import Game from '@/models/Game'
@@ -130,7 +130,7 @@ export default {
             datas2: [],
             title: "",
             genre: "",
-            thumbnail: "",
+            thumbnail: null,
             url: null,
             platform: "",
             publisher: "",
@@ -180,9 +180,6 @@ export default {
               release_date: this.date,
             }
         },
-        check1(){
-          return Object.values(this.form).every((value) => !!value);
-        }
     },
     methods: {
         goIndex(){
@@ -194,7 +191,6 @@ export default {
             confirmButtonColor: '#3085d6',
             denyButtonText: `Cancel`,
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
               this.id = this.getMaxId() + 1;
               this.datas.push(this.form);
@@ -243,17 +239,6 @@ export default {
           this.date =  new Date().toISOString().substr(0, 10);
           this.dialog = false;
         },
-       /*  save(){
-          this.id = this.getMaxId() + 1;
-          this.datas.push(this.form);
-          //Item.insert({data: this.datas});
-          localStorage.setItem('Data', JSON.stringify(this.datas));
-        },
-        retrieve(){
-          const data = localStorage.getItem('Data');
-          console.log(data);
-          console.log(Item.all());
-        }, */
     }
 }
 </script>

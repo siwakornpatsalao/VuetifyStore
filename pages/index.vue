@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br>
     <head-game></head-game>
     <br><br>
     <hr/>
