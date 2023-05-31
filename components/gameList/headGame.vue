@@ -69,7 +69,7 @@ export default{
 
 <style scoped>
 @import '@/assets/head.css';
-@import '@/assets/tag.css'
+@import '@/assets/tag.css';
 </style>
 
 
